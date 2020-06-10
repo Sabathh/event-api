@@ -20,7 +20,7 @@ def index():
             events_api.insertEvent(eventType, eventTitle, eventDescription)
             return redirect('/')
         except:
-            return 'There was an issue adding your event'
+            return 'There was an issue adding your event. Make sure at least the Type and Title of the event were specified.'
 
     else:
         events = events_api.getAllEvents()

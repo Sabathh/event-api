@@ -49,6 +49,9 @@ class EventHandler():
             eventTitle (str): Title of the event
             eventDescription (str): Description of the event
         """ 
+        if eventType == '' or eventTitle == '':
+            raise ValueError('Both eventType and EventTitle must be specified')
+            
         conn = sqlite3.connect(self.dbPath)
 
         eventDate = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
