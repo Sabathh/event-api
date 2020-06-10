@@ -80,7 +80,7 @@ class EventHandler():
         Retrieves all the events stored in the table
 
         Returns:
-            list: List of containing the events stored in the table. Each event is a dictionary
+            list: List containing the events stored in the table. Each event is a dictionary
         """
         conn = sqlite3.connect(self.dbPath)
         conn.row_factory = self._dict_factory
