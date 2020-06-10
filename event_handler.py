@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 class EventHandler(object):
     
@@ -25,10 +26,12 @@ class EventHandler(object):
                         ''')
         conn.commit()
 
-    def insertEvent(self, eventDate:str, eventType:str, eventTitle:str, eventDescription:str):
+    def insertEvent(self, eventType:str, eventTitle:str, eventDescription:str):
         
         conn = sqlite3.connect(self.dbPath)
 
+        eventDate = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
+        
         conn.execute(f'''
                         INSERT INTO {self.tableName}
                             VALUES ('{eventDate}', '{eventType}', '{eventTitle}', '{eventDescription}')
@@ -47,7 +50,7 @@ class EventHandler(object):
         conn.row_factory = self._dict_factory
         cur = conn.cursor()
 
-        return cur.execute(f'SELECT * FROM {self.tableName};').fetchall()
+        return cur.execute(f'SELECT * FROM {self.tableName} ORDER BY {self.date} DESC;').fetchall()
 
     def getEventByFilter(self, query_parameters: dict) -> dict:
         
@@ -71,7 +74,7 @@ class EventHandler(object):
             return {}
 
         # Remove trailing ' AND' from the query assembled
-        query = query[:-4] + ';'
+        query = query[:-4] + f'ORDER BY {self.date} DESC;'
 
         conn = sqlite3.connect(self.dbPath)
         conn.row_factory = self._dict_factory
