@@ -1,20 +1,27 @@
 import flask
-from flask import request, jsonify
-import sqlite3
+from flask import render_template, request, jsonify, redirect
 
 from event_handler import EventHandler
-
 import events_api
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
 
+@app.route('/', methods=['POST', 'GET'])
+def index():
+    if request.method == 'POST':
+        eventType = request.form['eventType']
+        eventTitle = request.form['eventTitle']
+        eventDescription = request.form['eventDescription']
 
-@app.route('/', methods=['GET'])
-def home():
-    return '''<h1>Event Reader</h1>
-              <p>API for reading events</p>
-           '''
+        try:
+            events_api.insertEvent(eventType, eventTitle, eventDescription)
+            return redirect('/')
+        except:
+            return 'There was an issue adding your event'
+
+    else:
+        events = events_api.getAllEvents()
+        return render_template('home.html', events=events)
 
 @app.route('/api/events/all', methods=['GET'])
 def api_all():

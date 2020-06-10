@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Event Viewer</title>
+{% endblock %}
+
+{% block body %}
+<div class="events">
+    <h1 style="text-align: center">Event Viewer</h1>
+    <div class="form">
+        <form action="/" method="POST">
+            <label for="eventType">Type:</label>
+            <input type="text" name="eventType" id="eventType"><br>
+            <label for="eventTitle">Title:</label>
+            <input type="text" name="eventTitle" id="eventTitle"><br>
+            <label for="eventDescription">Description:</label>
+            <input type="text" name="eventDescription" id="eventDescription">
+            <input type="submit" value="Add Event">
+        </form>
+    </div>
+    {% if events|length < 1 %}
+    <h4 style="text-align: center">There are no events available.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+        {% for event in events %}
+            <tr>
+                <td>{{ event['date'] }}</td>
+                <td>{{ event['eventType'] }}</td>
+                <td>{{ event['eventTitle'] }}</td>
+                <td>{{ event['eventDescription'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
