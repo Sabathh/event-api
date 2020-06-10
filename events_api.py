@@ -1,5 +1,11 @@
 from event_handler import EventHandler
 
+def initDatabase(clearDatabase:bool = False):
+
+    eHandler = EventHandler()
+
+    eHandler.createDatabase(clearDatabase)
+
 def getAllEvents():
     
     eHandler = EventHandler()
@@ -17,3 +23,9 @@ def getEventsByFilter(query_parameters):
 
     return events
 
+
+def insertEvent(eventType:str, eventTitle:str, eventDescription:str):
+
+    eHandler = EventHandler()
+
+    eHandler.insertEvent(eventType, eventTitle, eventDescription)
